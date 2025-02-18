@@ -7,18 +7,6 @@ name: NanoPi Build 24.10
 on:
 #  release:
 #    types: published
-  #push:
-  #  branches:
-  #    - 21.02
-  #  paths:
-  #    - '.github/workflows/openwrt-rockchip-2102.yml'
-  #    - 'step/00-prepare_openwrt.sh'
-  #    - 'step/01-prepare_package.sh'
-  #    - 'seed/rockchip.seed'
-  #schedule:
-  #  - cron: 30 21 * * *
-  #watch:
-  #  types: started
   workflow_dispatch:
     inputs:
       openwrt_branch:
@@ -27,25 +15,11 @@ on:
         default: '24.10'
         type: choice
         options:
-        #- '22.03'
-        #- '23.05'
         - '24.10'
       model_R4S:
         description: 'Build R4S'
         type: boolean
         default: true
-      #model_R2S:
-      #  description: 'Build R2S'
-      #  type: boolean
-      #  default: false
-      #model_R2C:
-      #  description: 'Build R2C'
-      #  type: boolean
-      #  default: false
-      #build_mini:
-      #  description: 'Build mini seed'
-      #  type: boolean
-      #  default: false
       build_full:
         description: 'Build full seed'
         type: boolean

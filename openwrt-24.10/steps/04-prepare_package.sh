@@ -11,14 +11,14 @@ OPENWRT_BRANCH=24.10
 cd "$ROOTDIR/build"
 
 # clone stangri repo
-rm -rf stangri_repo
-mkdir stangri_repo
-cd stangri_repo
+#rm -rf stangri_repo
+#mkdir stangri_repo
+#cd stangri_repo
 # stick to version 1.1.6 of pbr for now
-git clone -b 1.1.8 https://github.com/stangri/pbr.git
-git clone https://github.com/stangri/luci-app-pbr.git
+#git clone -b 1.1.8 https://github.com/stangri/pbr.git
+#git clone https://github.com/stangri/luci-app-pbr.git
 #git clone https://github.com/stangri/source.openwrt.melmac.net stangri_repo
-cd ..
+#cd ..
 
 # clone lisaac/luci-app-dockerman repo
 # rm -rf luci-app-dockerman-repo
@@ -29,10 +29,10 @@ cd openwrt
 ./scripts/feeds update -a
 
 # replace pbr packages
-rm -rf feeds/packages/net/pbr/
-cp -R ../stangri_repo/pbr feeds/packages/net/
-rm -rf feeds/luci/applications/luci-app-pbr
-cp -R ../stangri_repo/luci-app-pbr feeds/luci/applications/
+#rm -rf feeds/packages/net/pbr/
+#cp -R ../stangri_repo/pbr feeds/packages/net/
+#rm -rf feeds/luci/applications/luci-app-pbr
+#cp -R ../stangri_repo/luci-app-pbr feeds/luci/applications/
 
 # replace adguardhome with prebuilt latest version
 # rm -rf feeds/packages/net/adguardhome
