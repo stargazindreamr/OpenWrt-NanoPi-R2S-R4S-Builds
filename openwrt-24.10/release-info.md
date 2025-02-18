@@ -1,12 +1,12 @@
-## OpenWrt 24.10
+## Vanilla OpenWrt 24.10
 
 ### General Info
-- Based on Vanilla Openwrt 24.10.0
+- Based on official Openwrt 24.10.0
 
 ### Notes
 - Includes patches for PHY PCIe init issues
 - CycloneDX SBOM and full manifest is included in each release
-- All kmods included in each release
+- All kmods included in each release image
 
 ### Configuration
 - OpenWRT 24.10 Vanilla / Kernel 6.6
