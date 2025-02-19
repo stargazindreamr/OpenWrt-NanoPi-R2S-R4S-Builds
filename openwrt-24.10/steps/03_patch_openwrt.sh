@@ -61,5 +61,4 @@ if [ -e .config ]; then
    echo "Cleaning up ..."
    make target/linux/clean
    make package/boot/uboot-rockchip/clean
-   make package/kernel/r8168/clean
 fi
