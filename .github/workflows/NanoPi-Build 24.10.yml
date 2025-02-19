@@ -200,7 +200,7 @@ jobs:
       uses: ncipollo/release-action@v1.11.1
       if: ${{ !cancelled() }}
       with:
-        name: OpenWrt ${{ env.OPENWRT_BRANCH }} ${{ env.BUILD_STRING }} 
+        name: Vanilla OpenWrt ${{ env.OPENWRT_BRANCH }} ${{ env.BUILD_STRING }} 
         allowUpdates: true
         tag: OpenWrtNK-${{ env.OPENWRT_BRANCH }}-${{ env.RELTAG }}
         commit: main
