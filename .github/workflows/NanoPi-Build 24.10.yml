@@ -202,8 +202,8 @@ jobs:
       with:
         name: Vanilla OpenWrt ${{ env.OPENWRT_BRANCH }} ${{ env.BUILD_STRING }} 
         allowUpdates: true
-        tag: OpenWrtNK-${{ env.OPENWRT_BRANCH }}-${{ env.RELTAG }}
-        commit: main
+        tag: Vanilla-OpenWrtNK-${{ env.OPENWRT_BRANCH }}-${{ env.RELTAG }}
+        commit: Vanilla
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
         bodyFile: "openwrt-${{ env.OPENWRT_BRANCH }}/release-info.md"
