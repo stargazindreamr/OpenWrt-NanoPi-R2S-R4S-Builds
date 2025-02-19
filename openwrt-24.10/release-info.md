@@ -5,6 +5,7 @@
 
 ### Notes
 - Includes patches for PHY PCIe init issues
+- R4S is over-clocked to 2.0GHz on a72 cores and 1.6GHz on a53 cores.
 - CycloneDX SBOM and full manifest is included in each release
 - All kmods included in each release image
 
@@ -18,4 +19,4 @@
 ### Changelog
 - [2025-02-06] Initial OpenWrt 24.10.0
 - [2025-02-17] Add patches for PHY PCIe init issues
-- [2025-02-18] Trim build back to plain vanilla Openwrt with only PHY PCIe init issue patches
+- [2025-02-18] Trim build back to plain vanilla Openwrt with only PHY PCIe init issue patches, OC patch, and patch for LED system status
