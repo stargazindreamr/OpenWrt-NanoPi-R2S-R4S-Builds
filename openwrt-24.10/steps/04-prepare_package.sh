@@ -42,6 +42,16 @@ cd openwrt
 # rm -rf feeds/luci/applications/luci-app-dockerman
 # cp -R ../luci-app-dockerman-repo/applications/luci-app-dockerman feeds/luci/applications/
 
+# Edit every line of feeds.conf in a loop to set the chosen revision hash
+REV_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+sed -n -e "/^src-git\S*\s/{s///;s/\s.*$//p}" feeds.conf \
+| while read -r FEED_ID
+do
+REV_DATE="$(git log -1 --format=%cd --date=iso8601-strict)"
+REV_HASH="$(git -C feeds/${FEED_ID} rev-list -n 1 --before=${REV_DATE} ${REV_BRANCH})"
+sed -i -e "/\s${FEED_ID}\s.*\.git$/s/$/^${REV_HASH}/" feeds.conf
+done
+
 ./scripts/feeds update -i && ./scripts/feeds install -a
 
 # Time stamp with $Build_Date=$(date +%Y.%m.%d)
