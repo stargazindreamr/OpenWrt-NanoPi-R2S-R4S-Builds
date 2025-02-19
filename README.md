@@ -5,14 +5,19 @@ Automated builds of OpenWrt for FriendlyARM NanoPi R4S boards
 
 [![NanoPi Build](https://github.com/stargazindreamr/OpenWrt-NanoPi-R2S-R4S-Builds/actions/workflows/NanoPi-Build.yml/badge.svg)](https://github.com/stargazindreamr/OpenWrt-NanoPi-R2S-R4S-Builds/actions/workflows/NanoPi-Build.yml)
 
+## OpenWrt 24.10.0 (experimental)
+
+[Download 24.10 Releases](https://github.com/stargazindreamr/OpenWrt-NanoPi-R4S-Builds/releases?q=OpenWrtNK-24.10&expanded=true) [Changelog](https://github.com/stargazindreamr/OpenWrt-NanoPi-R4S-Builds/blob/main/openwrt-24.10/release-info.md)
+Supported Models : R4S (4Gb)
+
 ## OpenWrt 23.05.5 (stable)
 
-[Download 23.05 Releases](https://github.com/stargazindreamr/OpenWrt-NanoPi-R2S-R4S-Builds/releases?q=OpenWrtAO-23.05&expanded=true) [Changelog](https://github.com/stargazindreamr/OpenWrt-NanoPi-R2S-R4S-Builds/blob/main/openwrt-23.05/release-info.md)
+[Download 23.05 Releases](https://github.com/stargazindreamr/OpenWrt-NanoPi-R4S-Builds/releases?q=OpenWrtNK-23.05&expanded=true) [Changelog](https://github.com/stargazindreamr/OpenWrt-NanoPi-R4S-Builds/blob/main/openwrt-23.05/release-info.md)
 Supported Models : R4S (4Gb)
 
 ## OpenWrt 22.03.5 (old)
 
-[Download 22.03 Releases](https://github.com/stargazindreamr/OpenWrt-NanoPi-R2S-R4S-Builds/releases?q=OpenWrtAO-22.03&expanded=true) [Changelog](https://github.com/stargazindreamr/OpenWrt-NanoPi-R2S-R4S-Builds/blob/main/openwrt-22.03/release-info.md)
+[Download 22.03 Releases](https://github.com/stargazindreamr/OpenWrt-NanoPi-R4S-Builds/releases?q=OpenWrtNK-22.03&expanded=true) [Changelog](https://github.com/stargazindreamr/OpenWrt-NanoPi-R4S-Builds/blob/main/openwrt-22.03/release-info.md)
 Supported Models : R4S (4Gb)
 
 ⚠ Warning: No support / Use at your own risk  ⚠ 
