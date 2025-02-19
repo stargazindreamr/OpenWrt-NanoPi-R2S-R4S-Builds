@@ -200,9 +200,9 @@ jobs:
       uses: ncipollo/release-action@v1.11.1
       if: ${{ !cancelled() }}
       with:
-        name: Vanilla OpenWrt ${{ env.OPENWRT_BRANCH }} ${{ env.BUILD_STRING }} 
+        name: Vanilla OpenWrt ${{ env.OPENWRT_BRANCH }} ${{ env.BUILD_STRING }} 100MB
         allowUpdates: true
-        tag: Vanilla-OpenWrtNK-${{ env.OPENWRT_BRANCH }}-${{ env.RELTAG }}
+        tag: Vanilla-OpenWrtNK-${{ env.OPENWRT_BRANCH }}-${{ env.RELTAG }}-100MB
         commit: Vanilla
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}
