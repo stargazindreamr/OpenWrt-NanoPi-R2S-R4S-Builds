@@ -20,6 +20,14 @@ on:
         description: 'Build R4S'
         type: boolean
         default: true
+      rootfs_size:
+        description: 'RootFS Size'
+        required: true
+        default: '1024MB'
+        type: choice
+        options:
+        - '100MB'
+        - '1024MB'
       build_full:
         description: 'Build full seed'
         type: boolean
@@ -87,6 +95,7 @@ jobs:
         echo "NANOPI_MODEL=${{ matrix.nanopi_model }}" >> $GITHUB_ENV
         echo "BUILD_MINI=${{ github.event.inputs.build_mini }}" >> $GITHUB_ENV
         echo "BUILD_FULL=${{ github.event.inputs.build_full }}" >> $GITHUB_ENV
+        echo "ROOTFS_SIZE=${{ github.event.inputs.rootfs_size }}" >> $GITHUB_ENV
 
     - name: Show GITHUB_ENV
       run: echo $GITHUB_ENV
@@ -107,13 +116,14 @@ jobs:
       run: ./openwrt-$OPENWRT_BRANCH/steps/05-create_luci_acl.sh
     
     - name: Load toolchain seed
-      run: ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full
+      run: ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full $ROOTFS_SIZE
         
     - name: Download package
       id: package
       run: |
         cd build/openwrt
-        make download -j10
+        let make_process=$(nproc)+1
+        make download -j${make_process}
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
@@ -137,38 +147,9 @@ jobs:
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
     
-    - name: Load NK seed (mini)
-      if: github.event.inputs.build_mini == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL mini
-
-    - name: Build kmods (mini)
-      if: github.event.inputs.build_mini == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/07-all_kmods.sh
-
-    - name: Compile OpenWRT (mini)
-      id: compileopenwrtmini
-      if: github.event.inputs.build_mini == 'true'
-      continue-on-error: true
-      run: |
-        cd build/openwrt
-        let make_process=$(nproc)+1
-        make -j${make_process} || make -j${make_process}
-    
-    - name: If compile openwrt Error
-      if: github.event.inputs.build_mini == 'true' && steps.compileopenwrtmini.outcome == 'failure'
-      run: |
-        cat build/openwrt/.config
-        echo '================================================================'
-        cd build/openwrt && make -j1 V=s
-    
-    - name: Organize files (mini)
-      id: organizemini
-      if: github.event.inputs.build_mini == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL mini $OPENWRT_BRANCH $RELTAG
-    
     - name: Load NK seed (full)
       if: github.event.inputs.build_full == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full
+      run: ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full $ROOTFS_SIZE
 
     - name: Build kmods (full)
       if: github.event.inputs.build_full == 'true'
@@ -193,16 +174,16 @@ jobs:
     - name: Organize files (full)
       id: organizefull
       if: github.event.inputs.build_full == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL full $OPENWRT_BRANCH $RELTAG
+      run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL full $OPENWRT_BRANCH $RELTAG $ROOTFS_SIZE
 
     - name: Create release
       id: create_release
       uses: ncipollo/release-action@v1.11.1
       if: ${{ !cancelled() }}
       with:
-        name: Vanilla OpenWrt ${{ env.OPENWRT_BRANCH }} ${{ env.BUILD_STRING }} 100MB
+        name: Vanilla OpenWrt ${{ env.OPENWRT_BRANCH }} ${{ env.BUILD_STRING }} 100MB rootfs
         allowUpdates: true
-        tag: Vanilla-OpenWrtNK-${{ env.OPENWRT_BRANCH }}-${{ env.RELTAG }}-100MB
+        tag: Vanilla-OpenWrtNK-${{ env.ROOTFS_SIZE }}-${{ env.OPENWRT_BRANCH }}-${{ env.RELTAG }}
         commit: Vanilla
         replacesArtifacts: true
         token: ${{ secrets.GITHUB_TOKEN }}

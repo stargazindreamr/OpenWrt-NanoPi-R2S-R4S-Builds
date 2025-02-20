@@ -26,4 +26,11 @@ if [[ "$1" == "R2C" ]]; then
     sed -i 's/cortex-a72.cortex-a53/cortex-a53/' .config
 fi
 
+rootfs_size=$1
+rootfs_size_num="${rootfs_size%MB}"
+cat << "EOF" >> .config
+CONFIG_TARGET_ROOTFS_PARTSIZE=$rootfs_size_num
+EOF
+
+
 make defconfig
