@@ -11,7 +11,6 @@
 
 ### Configuration
 - OpenWRT 24.10 Vanilla / Kernel 6.6
-- Default 100MB rootfs partition size (a little cramped with all kmods included)
 
 ### Applications
 - Same application set as official OpenWrt build
