@@ -20,14 +20,14 @@ on:
         description: 'Build R4S'
         type: boolean
         default: true
-      #rootfs_size:
-        #description: 'RootFS Size'
-        #required: true
-        #default: '1024MB'
-        #type: choice
-        #options:
-        #- '100MB'
-        #- '1024MB'
+      rootfs_100mb:
+        description: '100MB RootFS'
+        type: boolean
+        default: false
+      rootfs_1024mb:
+        description: '1GB RootFS'
+        type: boolean
+        default: true
       build_full:
         description: 'Build full seed'
         type: boolean
@@ -150,18 +150,18 @@ jobs:
         GITHUB_CONTEXT: ${{ toJson(github) }}
     
     - name: Load NK seed (full, 1024mb roots)
-      if: github.event.inputs.build_full == 'true'
+      if: github.event.inputs.rootfs_1024mb == 'true'
       run: |
         echo "ROOTFS_SIZE=1024" >> $GITHUB_ENV
         ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full $ROOTFS_SIZE
 
     - name: Build kmods (full)
-      if: github.event.inputs.build_full == 'true'
+      if: github.event.inputs.rootfs_1024mb == 'true'
       run: ./openwrt-$OPENWRT_BRANCH/steps/07-all_kmods.sh
 
     - name: Compile OpenWRT (full, 1024mb roots)
       id: compileopenwrtfull
-      if: github.event.inputs.build_full == 'true'
+      if: github.event.inputs.rootfs_1024mb == 'true'
       continue-on-error: true
       run: |
         cd build/openwrt
@@ -169,7 +169,7 @@ jobs:
         make -j${make_process} || make -j${make_process}
     
     - name: If compile openwrt Error
-      if: github.event.inputs.build_full == 'true' && steps.compileopenwrtfull.outcome == 'failure'
+      if: github.event.inputs.rootfs_1024mb == 'true' && steps.compileopenwrtfull.outcome == 'failure'
       run: |
         cat build/openwrt/.config
         echo '================================================================'
@@ -177,18 +177,22 @@ jobs:
     
     - name: Organize files (full, 1024mb roots)
       id: organizefull
-      if: github.event.inputs.build_full == 'true'
+      if: github.event.inputs.rootfs_1024mb == 'true'
       run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL full $OPENWRT_BRANCH $RELTAG $ROOTFS_SIZE
 
     - name: Load NK seed (full, 100mb roots)
-      if: github.event.inputs.build_full == 'true'
+      if: github.event.inputs.rootfs_100mb == 'true'
       run: |
         echo "ROOTFS_SIZE=100" >> $GITHUB_ENV
         ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full $ROOTFS_SIZE
 
+    - name: Build kmods (full)
+      if: github.event.inputs.rootfs_100mb == 'true'
+      run: ./openwrt-$OPENWRT_BRANCH/steps/07-all_kmods.sh
+
     - name: Compile OpenWRT (full, 100mb roots)
       id: compileopenwrtfull-100
-      if: github.event.inputs.build_full == 'true'
+      if: github.event.inputs.rootfs_100mb == 'true'
       continue-on-error: true
       run: |
         cd build/openwrt
@@ -196,7 +200,7 @@ jobs:
         make -j${make_process} || make -j${make_process}
     
     - name: If compile openwrt Error
-      if: github.event.inputs.build_full == 'true' && steps.compileopenwrtfull.outcome == 'failure'
+      if: github.event.inputs.rootfs_100mb == 'true' && steps.compileopenwrtfull.outcome == 'failure'
       run: |
         cat build/openwrt/.config
         echo '================================================================'
@@ -204,7 +208,7 @@ jobs:
     
     - name: Organize files (full, 100mb roots)
       id: organizefull-100
-      if: github.event.inputs.build_full == 'true'
+      if: github.event.inputs.rootfs_100mb == 'true'
       run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL full $OPENWRT_BRANCH $RELTAG $ROOTFS_SIZE
 
     - name: Create release

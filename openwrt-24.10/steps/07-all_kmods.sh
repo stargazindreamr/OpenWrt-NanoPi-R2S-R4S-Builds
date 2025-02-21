@@ -15,8 +15,8 @@ sed -i -e '/^# CONFIG_PACKAGE_kmod-/d' .config
 echo CONFIG_ALL_KMODS=y >> .config
 make defconfig
 
-rm -rf bin/
-rm -rf files/ipks/
+#rm -rf bin/
+#rm -rf files/ipks/
 let make_process=$(nproc)+1
 
 # compile toolchain if not built yet
