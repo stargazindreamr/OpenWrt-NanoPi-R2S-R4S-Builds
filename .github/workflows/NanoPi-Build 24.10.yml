@@ -180,14 +180,14 @@ jobs:
       if: github.event.inputs.build_full == 'true'
       run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL full $OPENWRT_BRANCH $RELTAG $ROOTFS_SIZE
 
-      - name: Load NK seed (full, 100mb roots)
+    - name: Load NK seed (full, 100mb roots)
       if: github.event.inputs.build_full == 'true'
       run: |
         echo "ROOTFS_SIZE=100" >> $GITHUB_ENV
         ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full $ROOTFS_SIZE
 
     - name: Compile OpenWRT (full, 100mb roots)
-      id: compileopenwrtfull
+      id: compileopenwrtfull-100
       if: github.event.inputs.build_full == 'true'
       continue-on-error: true
       run: |
@@ -203,7 +203,7 @@ jobs:
         cd build/openwrt && make -j1 V=s
     
     - name: Organize files (full, 100mb roots)
-      id: organizefull
+      id: organizefull-100
       if: github.event.inputs.build_full == 'true'
       run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL full $OPENWRT_BRANCH $RELTAG $ROOTFS_SIZE
 
