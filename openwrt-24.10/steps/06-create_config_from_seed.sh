@@ -28,6 +28,12 @@ fi
 
 rootfs_size=$1
 rootfs_size_num="${rootfs_size%MB}"
+
+if [[ "$rootfs_size" != "100MB" ]]; then
+cat << "EOF" >> .config
+CONFIG_TARGET_KERNEL_PARTSIZE=40
+EOF
+
 cat << "EOF" >> .config
 CONFIG_TARGET_ROOTFS_PARTSIZE=$rootfs_size_num
 EOF
