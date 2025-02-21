@@ -155,12 +155,12 @@ jobs:
         echo "ROOTFS_SIZE=1024MB" >> $GITHUB_ENV
         ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full $ROOTFS_SIZE
 
-    - name: Build kmods (full)
+    - name: Build kmods (full, 1024mb)
       if: github.event.inputs.rootfs_1024mb == 'true'
       run: ./openwrt-$OPENWRT_BRANCH/steps/07-all_kmods.sh
 
     - name: Compile OpenWRT (full, 1024mb roots)
-      id: compileopenwrtfull
+      id: compileopenwrtfull-1024mb
       if: github.event.inputs.rootfs_1024mb == 'true'
       continue-on-error: true
       run: |
@@ -176,7 +176,7 @@ jobs:
         cd build/openwrt && make -j1 V=s
     
     - name: Organize files (full, 1024mb roots)
-      id: organizefull
+      id: organizefull-1024mb
       if: github.event.inputs.rootfs_1024mb == 'true'
       run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL full $OPENWRT_BRANCH $RELTAG $ROOTFS_SIZE
 
