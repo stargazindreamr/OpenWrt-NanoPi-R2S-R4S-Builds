@@ -2,7 +2,7 @@
 # Description: Build OpenWrt using GitHub Actions
 # Lisence: MIT
 
-name: NanoPi Build 24.10
+name: NanoPi Build 24.10 lite
 
 on:
 #  release:
@@ -68,12 +68,6 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
-    - name: 'Cleanup build folder'
-      run: |
-        ls -la ./
-        rm -rf ./* || true
-        rm -rf ./.??* || true
-        ls -la ./
 
     - name: Checkout repository
       uses: actions/checkout@main
@@ -99,49 +93,6 @@ jobs:
 
     - name: Show GITHUB_ENV
       run: echo $GITHUB_ENV
-
-    - name: Clone OpenWrt source
-      run: ./openwrt-$OPENWRT_BRANCH/steps/01_clone_openwrt.sh
-    
-    - name: Make working copy of OpenWrt source
-      run: ./openwrt-$OPENWRT_BRANCH/steps/02_prepare_openwrt_folder.sh
-    
-    - name: Patch OpenWrt Source
-      run: ./openwrt-$OPENWRT_BRANCH/steps/03_patch_openwrt.sh
-    
-    - name: Prepare package
-      run: ./openwrt-$OPENWRT_BRANCH/steps/04-prepare_package.sh
-    
-    - name: Add ACL
-      run: ./openwrt-$OPENWRT_BRANCH/steps/05-create_luci_acl.sh
-    
-    - name: Load toolchain seed
-      run: |
-        echo "ROOTFS_SIZE=1024" >> $GITHUB_ENV
-        ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full $ROOTFS_SIZE
-        
-    - name: Download package
-      id: package
-      run: |
-        cd build/openwrt
-        let make_process=$(nproc)+1
-        make download -j${make_process}
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
-
-    - name: Make toolchain-aarch64
-      id: compiletoolchain
-      continue-on-error: true
-      run: |
-        cd build/openwrt
-        let make_process=$(nproc)+1
-        make toolchain/install -j${make_process}
-    
-    - name: If toolchain Error
-      if: steps.compiletoolchain.outcome == 'failure'
-      run: |
-        echo '================================================================'
-        cd build/openwrt && make toolchain/install -j1 V=s
     
     - name: Dump github context
       run: echo "$GITHUB_CONTEXT"
@@ -154,10 +105,6 @@ jobs:
       run: |
         echo "ROOTFS_SIZE=1024" >> $GITHUB_ENV
         ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL full $ROOTFS_SIZE
-
-    - name: Build kmods (full)
-      if: github.event.inputs.build_full == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/07-all_kmods.sh
 
     - name: Compile OpenWRT (full, 1024mb roots)
       id: compileopenwrtfull
