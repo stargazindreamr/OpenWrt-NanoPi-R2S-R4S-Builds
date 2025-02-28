@@ -61,6 +61,7 @@ jobs:
 
     steps:
     - name: 'Cleanup build folder'
+      if: runner.environment == 'github-hosted' # for GitHub hosted runners and 'self-hosted'
       run: |
         ls -la ./
         rm -rf ./* || true
@@ -136,35 +137,6 @@ jobs:
       shell: bash
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
-    
-    - name: Load NK seed (mini)
-      if: github.event.inputs.build_mini == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/06-create_config_from_seed.sh $NANOPI_MODEL mini
-
-    - name: Build kmods (mini)
-      if: github.event.inputs.build_mini == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/07-all_kmods.sh
-
-    - name: Compile OpenWRT (mini)
-      id: compileopenwrtmini
-      if: github.event.inputs.build_mini == 'true'
-      continue-on-error: true
-      run: |
-        cd build/openwrt
-        let make_process=$(nproc)+1
-        make -j${make_process} || make -j${make_process}
-    
-    - name: If compile openwrt Error
-      if: github.event.inputs.build_mini == 'true' && steps.compileopenwrtmini.outcome == 'failure'
-      run: |
-        cat build/openwrt/.config
-        echo '================================================================'
-        cd build/openwrt && make -j1 V=s
-    
-    - name: Organize files (mini)
-      id: organizemini
-      if: github.event.inputs.build_mini == 'true'
-      run: ./openwrt-$OPENWRT_BRANCH/steps/organize_files.sh $NANOPI_MODEL mini $OPENWRT_BRANCH $RELTAG
     
     - name: Load NK seed (full)
       if: github.event.inputs.build_full == 'true'
