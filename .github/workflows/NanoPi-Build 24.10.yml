@@ -87,6 +87,7 @@ jobs:
 
     steps:
     - name: 'Cleanup build folder'
+      if: runner.environment == 'github-hosted' # for GitHub hosted runners and 'self-hosted'
       run: |
         ls -la ./
         rm -rf ./* || true
