@@ -86,6 +86,14 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
+    - name: 'Cleanup build folder'
+      if: runner.environment == 'github-hosted' # for GitHub hosted runners and 'self-hosted'
+      run: |
+        ls -la ./
+        rm -rf ./* || true
+        rm -rf ./.??* || true
+        ls -la ./
+
     - name: Checkout repository
       uses: actions/checkout@main
     
