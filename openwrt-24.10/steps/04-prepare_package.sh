@@ -34,6 +34,14 @@ git clone -b v1.2.1-3 https://github.com/brvphoenix/wrtbwmon.git
 git clone -b release-2.0.13 https://github.com/brvphoenix/luci-app-wrtbwmon.git
 cd ..
 
+# clone netspeedtest repo
+rm -rf netspeedtest_repo
+mkdir netspeedtest_repo
+cd netspeedtest_repo
+# clone muink/luci-app-netspeedtest repo
+git clone https://github.com/muink/luci-app-netspeedtest.git
+cd ..
+
 # install feeds
 cd openwrt
 ./scripts/feeds update -a
