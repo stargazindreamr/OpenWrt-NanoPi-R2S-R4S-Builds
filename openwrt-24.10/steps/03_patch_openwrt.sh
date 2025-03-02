@@ -51,6 +51,7 @@ cp -R $ROOTDIR/openwrt-$OPENWRT_BRANCH/files/ files/
 # revert to fresh config
 cp $BUILDDIR/openwrt-fresh-$OPENWRT_BRANCH/target/linux/generic/config-6.6 target/linux/generic/config-6.6
 
+sed -i '/CONFIG_BLK_DEV_SX8 is not set/d' target/linux/generic/config-6.6
 cat << "EOF" >> target/linux/generic/config-6.6
 # CONFIG_BLK_DEV_SX8 is not set
 EOF
