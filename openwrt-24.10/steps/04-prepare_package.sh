@@ -24,6 +24,16 @@ cd "$ROOTDIR/build"
 # rm -rf luci-app-dockerman-repo
 # git clone https://github.com/lisaac/luci-app-dockerman luci-app-dockerman-repo
 
+# clone wrtbwmon repo
+rm -rf wrtbwmon_repo
+mkdir wrtbwmon_repo
+cd wrtbwmon_repo
+# clone brvphoenix/wrtbwmon repo
+git clone -b v1.2.1-3 https://github.com/brvphoenix/wrtbwmon.git
+# clone brvphoenix/luci-app-wrtbwmon repo
+git clone -b release-2.0.13 https://github.com/brvphoenix/luci-app-wrtbwmon.git
+cd ..
+
 # install feeds
 cd openwrt
 ./scripts/feeds update -a
@@ -58,6 +68,8 @@ cd openwrt
 MANUAL_DATE="$(date +%Y.%m.%d) (manual build)"
 BUILD_STRING=${BUILD_STRING:-$MANUAL_DATE}
 echo "Write build date in openwrt : $BUILD_DATE"
+sed -i '/NK Build@/d' package/base-files/files/etc/banner
+sed -i '/^$/d' package/base-files/files/etc/banner
 echo -e '\nNK Build@'${BUILD_STRING}'\n'  >> package/base-files/files/etc/banner
 #sed -i '/DISTRIB_REVISION/d' package/base-files/files/etc/openwrt_release
 #echo "DISTRIB_REVISION='${BUILD_STRING}'" >> package/base-files/files/etc/openwrt_release
