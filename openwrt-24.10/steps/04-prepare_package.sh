@@ -46,6 +46,16 @@ cd ..
 cd openwrt
 ./scripts/feeds update -a
 
+# copy rtbwmon packages
+rm -rf feeds/packages/net/wrtbwmon/
+cp -R ../wrtbwmon_repo/wrtbwmon feeds/packages/net/
+rm -rf feeds/luci/applications/luci-app-wrtbwmon
+cp -R ../wrtbwmon_repo/luci-app-wrtbwmon feeds/luci/applications/
+
+# copy netspeedtest packages
+rm -rf feeds/luci/applications/luci-app-netspeedtest
+cp -R ../netspeedtest_repo/luci-app-netspeedtest feeds/luci/applications/
+
 # replace pbr packages
 #rm -rf feeds/packages/net/pbr/
 #cp -R ../stangri_repo/pbr feeds/packages/net/
@@ -75,7 +85,7 @@ cd openwrt
 # Time stamp with $Build_Date=$(date +%Y.%m.%d)
 MANUAL_DATE="$(date +%Y.%m.%d) (manual build)"
 BUILD_STRING=${BUILD_STRING:-$MANUAL_DATE}
-echo "Write build date in openwrt : $BUILD_DATE"
+echo "Write build date in openwrt : $MANUAL_DATE"
 sed -i '/NK Build@/d' package/base-files/files/etc/banner
 sed -i '/^$/d' package/base-files/files/etc/banner
 echo -e '\nNK Build@'${BUILD_STRING}'\n'  >> package/base-files/files/etc/banner
