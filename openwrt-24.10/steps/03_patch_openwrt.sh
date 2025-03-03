@@ -26,7 +26,7 @@ cp -R $BUILDDIR/openwrt-fresh-$OPENWRT_BRANCH/target/linux/rockchip target/linux
 rsync -avz $ROOTDIR/openwrt-$OPENWRT_BRANCH/patches/target/ target
 
 # -------------- Custom Files ----------------------------
-cp -R $ROOTDIR/openwrt-$OPENWRT_BRANCH/files/ files/
+cp -R $ROOTDIR/openwrt-$OPENWRT_BRANCH/files/ ./
 
 # ------------------ packages ------------------------------------
 
